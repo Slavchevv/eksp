@@ -1,0 +1,131 @@
+﻿
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>ASP.NET</h1>
+    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
+   @* <p> @Html.ActionLink("Focus on this one!", "addWorkRoleUser", new { id = item.WorkRoleId }, new { @class = "btn btn-primary btn-lg" })</p>*@
+
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <h2>Yearly Focus</h2>
+        <p>
+            In this section you can set or alter your yearly focus in the company as well as add what roles you'd been focused in the past.
+        </p>
+        <p>@Html.ActionLink("Go!", "DisplayListOfRolesUser", "WorkRoles", null, new { @class = "btn btn-default btn-lg" })</p>
+    </div>
+    <div class="col-md-4">
+        <h2>Historical data and previous yearly focus</h2>
+        <p>Here you can see an overview of the roles you'd been focuse in the past</p>
+        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>Others focus</h2>
+        <p>Here you can have a peek at your coulegues's focuses</p>
+        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+    </div>
+</div>
+<div class="row">
+    Number of online users <strong id="counter"></strong>
+    <script src="@Url.Content("~/Scripts/jquery-3.1.1.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.signalR-2.2.1.min.js")"></script>
+    <script src="@Url.Content("~/signalr/hubs")"></script>
+
+    <script>
+        $(function () {
+            var counterHub = $.connection.counterHub;
+            $.connection.hub.start().done(function () {
+
+            });
+            counterHub.client.UpdateCount = function (count) {
+                $("#counter").text(count);
+            }
+        });
+
+    </script>
+</div>
+@*@model eksp.Models.UserDetails
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Company.CompanyName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ImageData)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LastName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UserAddress)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UserCountry)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UserPostalCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UserPhoneNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.identtyUserId)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Company.CompanyName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ImageData)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FirstName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LastName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserAddress)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserCountry)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserPostalCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserPhoneNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.identtyUserId)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.UserDetailsId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.UserDetailsId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.UserDetailsId })
+        </td>
+    </tr>
+}
+
+</table>*@

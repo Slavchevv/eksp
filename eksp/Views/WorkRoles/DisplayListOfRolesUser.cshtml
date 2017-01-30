@@ -1,0 +1,156 @@
+﻿@model IEnumerable<eksp.Models.WorkRole>
+@{
+    ViewBag.Title = "DisplayListOfRolesUser";
+}
+
+<div class="alert alert-warning alert-dismissable">You have exceeded the number of roles you can be focused on. You can 'de-focus' a role on <a href="@Url.Action("DisplayListOfFocusedRolesUser", "WorkRoles",null)">this</a> link.</div>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+  $(document).ready(function () {
+       var dataJSON;
+       $(".alert").hide();
+       //make the script run cuntinuosuly
+       $.ajax({
+          type: "POST",
+          url: '@Url.Action("checkNumRoles", "WorkRoles")',
+          dataType: "json",
+          success: successFunc,
+          error: errorFunc
+    });
+
+    function successFunc(data, status) {
+
+
+        if (data == false) {
+            $(".alert").show();
+            $('.btn').addClass('disabled');
+
+            //$(".btn").prop('disabled', true);
+        }
+
+    }
+
+    function errorFunc() {
+        alert('error');
+    }
+
+    var idW;
+    $(function () {
+
+        
+    $('.mdl').on('click', function () {
+       var parent = $(this).closest('.jumbotron');
+       var name = parent.find('input[name="mdlname"]').val();
+       var id = parent.find('input[name="mdlwrid"]').val(); 
+       idW = id;
+       $('#mdlSave').data('myval', id);
+
+       console.log(idW);
+       //var titleLocation = $('#myModal').find('.modal-body'); modal - title
+       var titleLocation = $('#myModal').find('.modal-title');
+       titleLocation.text(name);
+
+       // for each information you'll have to do like above...
+       
+       $('#myModal').modal('show');
+      
+     });
+});
+
+    
+    //$(function () {
+    //    $('.date-picker').datepicker();
+    //})
+  });
+    $(document).on("click", "#mdlSave", function (event) {
+        
+        console.log('x');
+        var a = $('#mdlSave').data('myval');
+        console.log(a);
+
+        addPastRoleAjax($('#mdlSave').data('myval'));
+    });
+    //$('#mdlSave').on('click', function () {
+    //    console.log('x');
+    //    addPastRoleAjax();
+
+    //});
+    //int wrId, string empId, string dateStart, string dateEnd
+    function addPastRoleAjax(id) {
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("addPastRole", "WorkRoles")',
+            dataType: "json",
+            data: {
+
+                wrId: parseInt(id),
+                dateStart: $("#wrdateStart").val(),
+                dateEnd: $("#wrknamedateEnd").val()
+               
+                
+            },
+            success: successFunc,
+            error: errorFunc
+        });
+
+        function successFunc(data, status) {
+
+
+            if (data == false) {
+                $(".alert").show();
+                $('.btn').addClass('disabled');
+
+                //$(".btn").prop('disabled', true);
+            }
+
+        }
+
+        function errorFunc() {
+            alert('error');
+        }
+    }
+
+     
+</script>
+
+
+
+@foreach (var item in Model)
+{
+
+    <div class="jumbotron">
+        <input type="hidden" name="mdlwrid" value="@item.WorkRoleId" />
+        <input type="hidden" name="mdlname" value="@item.RoleName" />
+
+        <h1>@Html.DisplayFor(modelItem => item.RoleName)</h1>
+        <p class="lead">@Html.DisplayFor(modelItem => item.RoleDescription)</p>
+        <p> @Html.ActionLink("Focus on this one!", "addWorkRoleUser", new { id = item.WorkRoleId }, new { @class = "btn btn-primary btn-lg" })</p>
+        <p> <button type="button" class="mdl btn btn-default btn-lg" data-myval="" data-toggle="modal" data-target="#myModal">Had role in the past</button> </p>
+    </div>
+
+}
+
+
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+                <p>Some text in the modal.</p>
+                <input id="wrdateStart" class='date-picker' />
+                <input id="wrknamedateEnd" class='date-picker' />
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="mdlSave" class="btn btn-default" data-dismiss="modal">Save</button>
+            </div>
+        </div>
+    </div>
+</div>

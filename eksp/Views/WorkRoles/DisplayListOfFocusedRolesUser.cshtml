@@ -1,0 +1,15 @@
+﻿@model IEnumerable<eksp.Models.WorkRole>
+@{
+    ViewBag.Title = "DisplayListOfFocusedRolesUser";
+}
+
+@foreach (var item in Model)
+{
+
+    <div class="jumbotron">
+        <h1>@Html.DisplayFor(modelItem => item.RoleName)</h1>
+        <p class="lead">@Html.DisplayFor(modelItem => item.RoleDescription)</p>
+        <p> @Html.ActionLink("Unfocus", "unfocusFromRole", new { id = item.WorkRoleId }, new { @class = "btn btn-danger btn-lg" })</p>
+    </div>
+
+}

@@ -1,0 +1,163 @@
+﻿@model eksp.Models.Company
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Company</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ImageData)
+        </dt>
+       @if (Model.ImageBase64 != null)
+        {
+            <dd>
+
+                <img src="data:image/png;base64,@Model.ImageBase64" />
+
+                @*@Html.DisplayFor(model => model.ImageData)*@
+            </dd>
+        }
+        <dt>
+            @Html.DisplayNameFor(model => model.CompanyName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CompanyName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CompanyAddress)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CompanyAddress)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CompanyCountry)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CompanyCountry)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CompanyCity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CompanyCity)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CompanyPostalCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CompanyPostalCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CompanyPhoneNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CompanyPhoneNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CAId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CAId)
+        </dd>
+        @*<dd>
+           
+            @Html.ActionLink("Edit", "Edit", new { id =d) }) |
+            @Html.ActionLink("Details", "Details", new { id = item.CompanyId }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.CompanyId })
+        </dd>*@
+    </dl>
+</div>
+
+@*@model IEnumerable<eksp.Models.Company>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ImageData)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CompanyName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CompanyAddress)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CompanyCountry)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CompanyCity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CompanyPostalCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CompanyPhoneNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CAId)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ImageData)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CompanyName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CompanyAddress)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CompanyCountry)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CompanyCity)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CompanyPostalCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CompanyPhoneNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CAId)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.CompanyId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.CompanyId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.CompanyId })
+        </td>
+    </tr>
+}
+
+</table>*@

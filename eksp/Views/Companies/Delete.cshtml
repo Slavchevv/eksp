@@ -1,0 +1,88 @@
+﻿@model eksp.Models.Company
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Company</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ImageData)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ImageData)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CompanyName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CompanyName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CompanyAddress)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CompanyAddress)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CompanyCountry)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CompanyCountry)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CompanyCity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CompanyCity)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CompanyPostalCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CompanyPostalCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CompanyPhoneNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CompanyPhoneNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CAId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CAId)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

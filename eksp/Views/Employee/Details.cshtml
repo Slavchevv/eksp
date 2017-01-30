@@ -1,0 +1,90 @@
+﻿@model eksp.Models.UserDetails
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>UserDetails</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Company.CompanyName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Company.CompanyName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ImageData)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ImageData)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FirstName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LastName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LastName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UserAddress)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserAddress)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UserCountry)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserCountry)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UserPostalCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserPostalCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UserPhoneNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserPhoneNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.identtyUserId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.identtyUserId)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.UserDetailsId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

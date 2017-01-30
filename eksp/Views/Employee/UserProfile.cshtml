@@ -1,0 +1,48 @@
+﻿@model eksp.Models.UserDetails
+
+@{
+    ViewBag.Title = "Your Profile";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Your Profile</h4>
+    <hr />
+    <dl class="dl-horizontal">
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ImageData)
+        </dt>
+    
+        <dd>
+            <img src="data:image/png;base64,@Model.ImageBase64" />
+
+        </dd>
+    
+        <dt>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LastName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UserAddress)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserCountry)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UserPostalCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserPhoneNumber)
+        </dd>
+
+    </dl>
+</div>
