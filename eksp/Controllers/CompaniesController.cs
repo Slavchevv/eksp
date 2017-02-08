@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using eksp.Models;
 using Microsoft.AspNet.Identity;
+using Newtonsoft.Json;
 
 namespace eksp.Controllers
 {
@@ -56,17 +57,17 @@ namespace eksp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "CompanyId,ImageData,CompanyName,CompanyAddress,CompanyCountry,CompanyCity,CompanyPostalCode,CompanyPhoneNumber,CAId")] Company company, HttpPostedFileBase UploadImage)
+        public ActionResult Create([Bind(Include = "CompanyId,ImageData,CompanyName,CompanyAddress,CompanyCountry,CompanyCity,CompanyPostalCode,CompanyPhoneNumber,CAId")] Company company)//
         {
             if (ModelState.IsValid)
             {
-                byte[] buf = new byte[UploadImage.ContentLength];
-                UploadImage.InputStream.Read(buf, 0, buf.Length);
-                company.ImageData = buf;
+                //byte[] buf = new byte[UploadImage.ContentLength];
+                //UploadImage.InputStream.Read(buf, 0, buf.Length);
+                //company.ImageData = buf;
 
                 db.Companies.Add(company);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Create");
             }
 
             return View(company);
@@ -141,5 +142,89 @@ namespace eksp.Controllers
             }
             base.Dispose(disposing);
         }
+
+        //[HttpPost]
+        public ActionResult experiencePieChart()
+        {
+
+
+
+            return View();
+        }
+
+        public JsonResult GetData()
+        {
+            //get all the workers in the company
+
+            string currentUserId = User.Identity.GetUserId();
+            //ApplicationUser currentUser = db.Users.FirstOrDefault(x => x.Id == currentUserId);
+            Company company = db.Companies.Where(c => c.CAId == currentUserId)
+                    .FirstOrDefault();
+            db.Users.FirstOrDefault(x => x.Id == currentUserId);
+
+            //IList<WorkRole> list1 = new List<WorkRole>();
+            IQueryable<WorkRole> dbList = db.WorkRoles.Where(c => c.CompanyId == company.CompanyId);
+
+            List<WorkRole> list1 = new List<WorkRole>(dbList);
+
+            var list2 = db.WorkRoles.
+                Join(db.WorkRolesUsersDetails,
+                o => o.WorkRoleId, od => od.WorkRoleId,
+                (o, od) => new
+                {
+                    WorkRoleId = o.WorkRoleId,
+                    RoleName = o.RoleName,
+                    RoleDescription = o.RoleDescription,
+                    CompanyId = o.CompanyId,
+                    WRUDId = od.WRUDId,
+                    UserDetailsId = od.UserDetailsId,
+                    FocusStart = od.FocusStart,
+                    FocusEnd = od.FocusEnd
+                }).ToList()
+                .Select(item => new RoleViewModel(
+                   item.WorkRoleId,
+                    item.RoleName,
+                    item.RoleDescription,
+                    item.CompanyId,
+                    item.WRUDId,
+                    item.UserDetailsId,
+                    item.FocusStart,
+                    item.FocusEnd)).ToList();
+
+            var list3 = list1.
+                Join(db.WorkRolesUsersDetails,
+                o => o.WorkRoleId, od => od.WorkRoleId,
+                (o, od) => new
+                {
+                    WorkRoleId = o.WorkRoleId,
+                    RoleName = o.RoleName,
+                    RoleDescription = o.RoleDescription,
+                    CompanyId = o.CompanyId,
+                    WRUDId = od.WRUDId,
+                    UserDetailsId = od.UserDetailsId,
+                    FocusStart = od.FocusStart,
+                    FocusEnd = od.FocusEnd
+                }).ToList()
+                .Select(item => new RoleViewModel(
+                   item.WorkRoleId,
+                    item.RoleName,
+                    item.RoleDescription,
+                    item.CompanyId,
+                    item.WRUDId,
+                    item.UserDetailsId,
+                    item.FocusStart,
+                    item.FocusEnd)).ToList();
+
+            //Math.Round(3.44, 1);
+            var perclist = list3.GroupBy(i => i.RoleName)
+      .Select(i =>
+            new {
+                rolename = i.Key,
+                perc = Math.Round(((double)(i.Count()) / (double)(list3.Count())) * 100, 1)
+            });
+            var json = JsonConvert.SerializeObject(perclist);
+            return Json(json, JsonRequestBehavior.AllowGet);
+        }
+
     }
 }

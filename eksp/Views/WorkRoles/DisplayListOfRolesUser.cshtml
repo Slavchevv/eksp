@@ -127,6 +127,7 @@
         <p class="lead">@Html.DisplayFor(modelItem => item.RoleDescription)</p>
         <p> @Html.ActionLink("Focus on this one!", "addWorkRoleUser", new { id = item.WorkRoleId }, new { @class = "btn btn-primary btn-lg" })</p>
         <p> <button type="button" class="mdl btn btn-default btn-lg" data-myval="" data-toggle="modal" data-target="#myModal">Had role in the past</button> </p>
+        <p> @Html.ActionLink("See who else is in role.", "colleaguesInRole", new { wrId = item.WorkRoleId, companyId = item.CompanyId }, new { @class = "btn btn-primary btn-lg" })</p>
     </div>
 
 }

@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>@ViewBag.Title - EKSPONENT</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 
@@ -17,7 +17,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Eksponent", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
@@ -39,8 +39,8 @@
 
                         if (User.IsInRole("Employee"))
                         {
-                            <li>@Html.ActionLink("Personal Profile", "RegisterCA", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
-                            <li>@Html.ActionLink("something", "RegisterCA", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+                            <li>@Html.ActionLink("Personal Profile", "UserProfile", "Employee", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+                            <li>@Html.ActionLink("Update Your Profile", "Edit", "Employee", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
                             <li>@Html.ActionLink("something else", "RegisterCA", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
                         }
                     }
@@ -60,6 +60,28 @@
         <hr />
         <footer>
             <p>&copy; @DateTime.Now.Year - EKSPONENT SOLUTION</p>
+            @*<p>Number of online users <strong id="counter"></strong></p>*@
+            @*@section scripts{
+                <div class="row">
+                    Number of online users <strong id="counter"></strong>
+                    <script src="@Url.Content("~/Scripts/jquery-3.1.1.min.js")"></script>
+                    <script src="@Url.Content("~/Scripts/jquery.signalR-2.2.1.min.js")"></script>
+                    <script src="@Url.Content("~/signalr/hubs")"></script>
+
+                    <script>
+                    $(function () {
+                        var counterHub = $.connection.counterHub;
+                        $.connection.hub.start().done(function () {
+
+                        });
+                        counterHub.client.UpdateCount = function (count) {
+                            $("#counter").text(count);
+                        }
+                    });
+
+                    </script>
+                </div>
+            }*@
         </footer>
     </div>
 

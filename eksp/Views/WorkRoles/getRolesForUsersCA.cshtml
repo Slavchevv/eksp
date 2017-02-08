@@ -1,0 +1,14 @@
+﻿@model IEnumerable<eksp.Models.RolesUsersViewModel>
+@{
+    ViewBag.Title = "getRolesForUsersCA";
+}
+@foreach (var item in Model)
+{
+    
+        <div class="jumbotron">
+            <h2>@item.fname</h2>
+            <h2> @item.lname</h2>
+            <p class="lead">Total experience with role : @item.total.Days</p>
+        </div>
+    
+}

@@ -6813,4 +6813,16 @@ td.visible-print {
   td.hidden-print {
     display: none !important;
   }
+  body{padding-top:30px;}
+  .glyphicon {  margin-bottom: 10px;margin-right: 10px;}
+
+.sml {
+display: block;
+line-height: 1.428571429;
+color: #999;
+}
+
+
+
+
 }

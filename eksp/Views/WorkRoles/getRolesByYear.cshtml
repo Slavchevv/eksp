@@ -1,0 +1,51 @@
+﻿
+@{
+    ViewBag.Title = "getRolesByYear";
+}
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script type="text/javascript">
+ 
+
+    getRolesForYear(parseInt(@DateTime.Now.Year));
+    
+    $(function () {
+        $('#years a').click(function () {
+            var year = $(this).text();
+            console.log(year);
+            getRolesForYear(parseInt(year));
+        });
+    })
+    
+    function getRolesForYear(year) {
+        console.log(year);
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("getRolesByYear", "WorkRoles")',
+            dataType: "html",
+            data: {
+                year: year
+            },
+            success: successFunc,
+            error: errorFunc
+        });
+
+        function successFunc(data, status) {
+            console.log("ajax success");
+            console.log(data);
+           $("#partial").html(data);
+            }
+
+        function errorFunc(jQXHR, textStatus, errorThrown) {
+            alert("An error occurred while trying to contact the server: " + jQXHR.status + " " + textStatus + " " + errorThrown);
+        }
+
+    }
+      
+</script>
+<div id = "years" class="btn-group btn-group-justified timeline">
+    <a  href="#@DateTime.Now.Year" class="btn btn-primary">@DateTime.Now.Year</a>
+    <a  href="#@DateTime.Now.AddYears(-1).Year" class="btn btn-primary">@DateTime.Now.AddYears(-1).Year</a>
+    <a  href="#@DateTime.Now.AddYears(-2).Year" class="btn btn-primary">@DateTime.Now.AddYears(-2).Year</a>
+</div>
+
+<div id="partial"></div>

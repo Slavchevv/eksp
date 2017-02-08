@@ -29,7 +29,7 @@ namespace eksp.Controllers
             //query the users table and get the user's company
             //display a list of roles for that company
             string currentUserId = User.Identity.GetUserId();
-           
+
             UserDetails userDetails = db.UsersDetails.Where(c => c.identtyUserId == currentUserId)
                     .FirstOrDefault();
 
@@ -47,14 +47,15 @@ namespace eksp.Controllers
 
             //foreach (var wr in WorkRolesQuery)
             //{
-                //if end date bigger then current date
-                //then remove the role/s in WorkRolesQuery with the same ids
-                foreach (var wu in workrolesusersdetailsQuery) { 
-                    if(wu.FocusEnd> DateTime.Now)
-                    {
-                        WorkRolesQuery.RemoveAll((x) => x.WorkRoleId == wu.WorkRoleId);
-                    }
+            //if end date bigger then current date
+            //then remove the role/s in WorkRolesQuery with the same ids
+            foreach (var wu in workrolesusersdetailsQuery)
+            {
+                if (wu.FocusEnd > DateTime.Now)
+                {
+                    WorkRolesQuery.RemoveAll((x) => x.WorkRoleId == wu.WorkRoleId);
                 }
+            }
             //}
 
             //for (int i = 0; i < WorkRolesQuery.Count; i++)
@@ -63,7 +64,7 @@ namespace eksp.Controllers
             //}
 
             return View(WorkRolesQuery);
-            
+
         }
 
         public ActionResult DisplayListOfFocusedRolesUser()
@@ -117,9 +118,9 @@ namespace eksp.Controllers
                 FocusEnd = date.AddYears(1),
                 isActive = true
 
-        };
+            };
 
-            db.WorkRolesUsersDetails.Add(WorkRoleUser); 
+            db.WorkRolesUsersDetails.Add(WorkRoleUser);
             db.SaveChanges();
 
             return RedirectToAction("DisplayListOfRolesUser");
@@ -165,7 +166,7 @@ namespace eksp.Controllers
                 int companyID = company.CompanyId;
 
                 workRole.CompanyId = companyID;
-           
+
                 db.WorkRoles.Add(workRole);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -261,7 +262,7 @@ namespace eksp.Controllers
             //check if some of the roles match with those the user already is 'focused' on
             //if there are such remove them from the list and then pass it to the view
             var workrolesusersdetailsQuery = db.WorkRolesUsersDetails
-                .Where(m => m.UserDetailsId == currentUserId && m.isActive==true).ToList();
+                .Where(m => m.UserDetailsId == currentUserId && m.isActive == true).ToList();
             var rolesCount = workrolesusersdetailsQuery.Count;
             //foreach (var wu in workrolesusersdetailsQuery)
             //{
@@ -277,11 +278,11 @@ namespace eksp.Controllers
             {
                 return Json(true);
             }
-                
+
         }
 
         //
-       
+
         public ActionResult unfocusFromRole(int? id)
         {
             //where role id and user id are equal to the ones passed as parameters
@@ -297,13 +298,13 @@ namespace eksp.Controllers
             int UsrCompanyId = userDetails.CompanyId;
 
 
-           
+
             var WorkRolesQuery = db.WorkRoles.Where(c => c.CompanyId == UsrCompanyId).ToList();
 
             //check if some of the roles match with those the user already is 'focused' on
             //if there are such remove them from the list and then pass it to the view
             WorkRolesUsersDetails workrolesusersdetailsQuery = db.WorkRolesUsersDetails
-                .Where(m => m.UserDetailsId == currentUserId && m.isActive == true && m.WorkRoleId==id).FirstOrDefault();
+                .Where(m => m.UserDetailsId == currentUserId && m.isActive == true && m.WorkRoleId == id).FirstOrDefault();
             //var rolesCount = workrolesusersdetailsQuery.Count;
             workrolesusersdetailsQuery.isActive = false;
             workrolesusersdetailsQuery.FocusEnd = DateTime.Now;
@@ -322,8 +323,8 @@ namespace eksp.Controllers
         //
         public void addPastRole(int wrId, string dateStart, string dateEnd)
         {
-            //Some code
-            
+
+
 
             DateTime dtStart = DateTime.ParseExact(dateStart, "dd/MM/yyyy", CultureInfo.InvariantCulture);
             DateTime dtEnd = DateTime.ParseExact(dateEnd, "dd/MM/yyyy", CultureInfo.InvariantCulture);
@@ -340,10 +341,192 @@ namespace eksp.Controllers
 
             db.WorkRolesUsersDetails.Add(WorkRoleUser);
             db.SaveChanges();
-           
+
 
 
             //return Json(str);
+        }
+
+        public ActionResult colleaguesInRole(int wrId, int companyId)
+        {
+
+
+            string currentUserId = User.Identity.GetUserId();
+
+            UserDetails userDetails = db.UsersDetails.Where(c => c.identtyUserId == currentUserId)
+                    .FirstOrDefault();
+
+            int UsrCompanyId = userDetails.CompanyId;
+
+            var WorkRolesQuery = db.WorkRoles.Where(c => c.CompanyId == UsrCompanyId).ToList();
+
+
+            //var query = from WorkRolesUsersDetails where 
+            //var workrolesusersdetailsQuery = db.WorkRolesUsersDetails.Where(m => m.UserDetailsId == currentUserId && m.isActive == true).ToList();
+            //var workrolesusersdetailsQuery = db.WorkRolesUsersDetails
+            //  .Where(m => m.UserDetailsId != User.Identity.GetUserId() && m.isActive == true && m.WorkRoleId==wrId);//select only thw workroleid column
+
+            var usersInRole = db.WorkRolesUsersDetails
+               .Where(m => m.UserDetailsId != currentUserId && m.isActive == true && m.WorkRoleId == wrId)
+               .Select(m => m.UserDetailsId).ToList();
+
+            //  WorkRolesQuery.RemoveAll((x) => !workrolesusersdetailsQuery.Contains(x.WorkRoleId));
+            //UserDetails userDetailsView = db.UsersDetails.Where(c => c.identtyUserId == currentUserId)
+            //   .ToList();
+            var userProfiles = db.UsersDetails.Where(t => usersInRole.Contains(t.identtyUserId)).ToList();
+
+            return View(userProfiles);
+
+        }
+        [HttpGet]
+        public ActionResult getRolesByYear()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult getRolesByYear(int year)
+        {
+            string currentUserId = User.Identity.GetUserId();
+            //var active = db.WorkRolesUsersDetails.Where(x => x.FocusEnd.Year == year && x.UserDetailsId== currentUserId).Select(x => new { x.ContactID, x.FirstName, x.LastName });
+
+
+            //var query = db.WorkRoles.Join(db.WorkRolesUsersDetails,x => x.WorkRoleId,y => y.WorkRoleId,(x, y) => new { wr = x, wrud = y }).ToList();
+            //var list = db.WorkRoles.
+            //    Join(db.WorkRolesUsersDetails,
+            //    o => o.WorkRoleId, od => od.WorkRoleId,
+            //    (o, od) => new
+            //    {
+            //        WorkRoleId = o.WorkRoleId,
+            //        RoleName = o.RoleName,
+            //        RoleDescription = o.RoleDescription,
+            //        CompanyId = o.CompanyId,
+            //        WRUDId = od.WRUDId,
+            //        UserDetailsId = od.UserDetailsId,
+            //        FocusStart = od.FocusStart,
+            //        FocusEnd = od.FocusEnd
+            //    }).ToList();
+
+            //var list = db.WorkRoles.
+            //Join(db.WorkRolesUsersDetails,
+            //o => o.WorkRoleId, od => od.WorkRoleId,
+            //(o, od) => new RoleViewModel(
+            //    o.WorkRoleId,
+            //    o.RoleName,
+            //    o.RoleDescription,
+            //    o.CompanyId,
+            //    od.WRUDId,
+            //    od.UserDetailsId,
+            //    od.FocusStart,
+            //    od.FocusEnd
+            //)).ToList();
+
+            var list = db.WorkRoles.
+                Join(db.WorkRolesUsersDetails,
+                o => o.WorkRoleId, od => od.WorkRoleId,
+                (o, od) => new
+                {
+                    WorkRoleId = o.WorkRoleId,
+                    RoleName = o.RoleName,
+                    RoleDescription = o.RoleDescription,
+                    CompanyId = o.CompanyId,
+                    WRUDId = od.WRUDId,
+                    UserDetailsId = od.UserDetailsId,
+                    FocusStart = od.FocusStart,
+                    FocusEnd = od.FocusEnd
+                }).ToList()
+                .Select(item => new RoleViewModel(
+                   item.WorkRoleId,
+                    item.RoleName,
+                    item.RoleDescription,
+                    item.CompanyId,
+                    item.WRUDId,
+                    item.UserDetailsId,
+                    item.FocusStart,
+                    item.FocusEnd)).ToList();
+
+
+            list.RemoveAll(x => x.UserDetailsId != currentUserId);
+            list = list.Where(i => i.FocusEnd.Year == year || i.FocusStart.Year == year).ToList();
+
+            if (Request.IsAjaxRequest())
+            {
+                return PartialView("_yearlyRoles", list);
+            }
+            else
+            {
+                return View(list);
+            }
+        }
+
+
+        
+        //[HttpPost]
+        public ActionResult getRolesForUsersCA(int wrId)
+        {
+            string currentUserId = User.Identity.GetUserId();
+            Company company = db.Companies.Where(c => c.CAId == currentUserId)
+                    .FirstOrDefault();
+            //db.Users.FirstOrDefault(x => x.Id == currentUserId);
+
+            IQueryable<WorkRolesUsersDetails> listWRUD = db.WorkRolesUsersDetails.Where(c => c.WorkRoleId == wrId);
+            //var listWRUD = db.WorkRolesUsersDetails.Where(c => c.WorkRoleId == wrId).ToList();
+
+            var list = listWRUD.
+                Join(db.UsersDetails,
+                o => o.UserDetailsId, od => od.identtyUserId,
+                (o, od) => new
+                {
+                    fname = od.FirstName,
+                    lname = od.LastName,
+                    UserDetailsId = o.UserDetailsId,
+                    FocusStart = o.FocusStart,
+                    FocusEnd = o.FocusEnd
+                }).ToList();
+            //.Select(item => new RolesUsersViewModel(
+            //    item.fname,
+            //    item.lname,
+            //    item.UserDetailsId,
+            //    item.FocusStart,
+            //    item.FocusEnd)).ToList();
+
+            //
+            //list.RemoveAll(x => x.UserDetailsId != currentUserId);
+            //list = list.Where(i => i.FocusEnd.Year == year || i.FocusStart.Year == year).ToList();
+            //from x in list
+            //group x by new { x.fname, x.lname } into g
+            //select new RolesUsersViewModel
+            //{
+            //    fname = g.Key.fname,
+            //    lname = g.Key.lname,
+            //    total = g.Sum(x => x.FocusEnd - x.FocusStart)
+            //}
+            var a = from x in list
+            group x by new { x.fname, x.lname, x.UserDetailsId } into g
+            select new RolesUsersViewModel(g.Key.UserDetailsId, g.Key.fname, g.Key.lname, TimeSpan.FromMilliseconds(g.Sum(x => (x.FocusEnd - x.FocusStart).TotalMilliseconds)));
+            List<RolesUsersViewModel> list_users = a.ToList<RolesUsersViewModel>();
+            //var b = list_users[0].total.TotalDays;
+            //var bc = list_users[0].total=list_users[0].total.Days;
+            //list_users.ForEach(c => c.total = c.total.Days);
+            //list_users.Select(c => { c.total = list_users; return c; })
+            return View(list_users);
+            
+        }
+
+        public ActionResult getAllUsers(int usrId)
+        {
+
+            //
+            string currentUserId = User.Identity.GetUserId();
+            Company company = db.Companies.Where(c => c.CAId == currentUserId)
+                    .FirstOrDefault();
+            //db.Users.FirstOrDefault(x => x.Id == currentUserId);
+
+            //IQueryable<WorkRolesUsersDetails> listWRUD = db.WorkRolesUsersDetails.Where(c => c.WorkRoleId == wrId);
+            //var listWRUD = db.WorkRolesUsersDetails.Where(c => c.WorkRoleId == wrId).ToList();
+
+            
+            return View();
+
         }
     }
 }

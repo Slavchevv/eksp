@@ -102,13 +102,17 @@ namespace eksp.Controllers
         //}
 
         // GET: Employee/Edit/5
+
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            UserDetails userDetails = db.UsersDetails.Find(id);
+
+            string userid = User.Identity.GetUserId();
+
+            UserDetails userDetails = db.UsersDetails.Where(i=> i.identtyUserId == userid).First();
             if (userDetails == null)
             {
                 return HttpNotFound();

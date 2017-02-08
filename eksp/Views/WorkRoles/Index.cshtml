@@ -31,7 +31,8 @@
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.WorkRoleId }) |
             @Html.ActionLink("Details", "Details", new { id=item.WorkRoleId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.WorkRoleId })
+            @Html.ActionLink("Delete", "Delete", new { id=item.WorkRoleId }) |        
+            @Html.ActionLink("See Who Is In Role", "getRolesForUsersCA", new { wrId = item.WorkRoleId })
         </td>
     </tr>
 }

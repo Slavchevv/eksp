@@ -4,9 +4,8 @@
     ViewBag.Title = "Your Profile";
 }
 
-<h2>Details</h2>
 
-<div>
+@*<div>
     <h4>Your Profile</h4>
     <hr />
     <dl class="dl-horizontal">
@@ -45,4 +44,37 @@
         </dd>
 
     </dl>
+</div>*@
+
+<div class="container cent">
+    <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-6">
+            <div class="well well-sm">
+                <div class="row">
+                    <div class="col-sm-6 col-md-4">
+
+                        <img src="data:image/png;base64,@Model.ImageBase64" alt="" class="img-rounded img-responsive" />
+                    </div>
+                    <div class="col-sm-6 col-md-8">
+                        <h4>
+
+                            @Html.DisplayFor(model => model.FirstName) @Html.DisplayFor(model => model.LastName)
+                        </h4>
+                        <small class="sml">
+                            <cite title="">
+                                 @Html.DisplayFor(model => model.UserAddress), @Html.DisplayFor(model => model.UserCountry)<i class="glyphiconnn glyphicon glyphicon-map-marker">
+                                </i>
+                            </cite>
+                        </small>
+                        <p>
+                            <i class="glyphiconnn glyphicon glyphicon-envelope"></i>@Html.DisplayFor(model => model.UserPhoneNumber)
+                            <br />
+                            <i class="glyphiconnn glyphicon glyphicon-gift"></i>June 02, 1988
+                        </p>
+                       
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

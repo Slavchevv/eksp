@@ -1,0 +1,63 @@
+﻿    @model eksp.Models.PieChartVM
+@{
+        ViewBag.Title = "experiencePieChart";
+    }
+
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+
+    $.ajax({
+        url: '@Url.Action("GetData", "Companies")',
+        type: "GET",
+        success: function (result) {
+            console.log(result);
+            var jsonObj = $.parseJSON(result)
+            console.log(jsonObj);
+            var arr = $.map(jsonObj, function (el) { return el; })
+            //$.each(jsonObj, function (index, value) {
+            //    alert(value = $.parseJSON(value));
+            //});
+            var arrChart = jsonObj.map(el=>Object.values(el));
+            arrChart.unshift(['Role', 'Percentage']);
+            console.log(arrChart);
+
+            //var testarr = [
+            //      ['Language', 'Speakers (in millions)'],
+            //      ['German', 5.85],
+            //      ['French', 1.66],
+            //      ['Italian', 0.316],
+            //      ['Romansh', 0.0791]
+            //];
+            //console.log(testarr);
+
+            //
+            google.charts.load("current", { packages: ["corechart"] });
+            google.charts.setOnLoadCallback(drawChart);
+            function drawChart() {
+                var data = google.visualization.arrayToDataTable(arrChart);
+
+                var options = {
+                    legend: 'none',
+                    pieSliceText: 'label',
+                    title: 'Accumulated experience',
+                    pieStartAngle: 100,
+                };
+
+                var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+                chart.draw(data, options);
+            }
+            //
+
+        }
+    });
+
+
+      
+</script>-
+
+
+
+<div id="piechart" style="width: 1000px; height: 600px;"></div>
+

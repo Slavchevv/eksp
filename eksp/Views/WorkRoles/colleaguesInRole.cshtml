@@ -1,0 +1,35 @@
+﻿@model IEnumerable<eksp.Models.UserDetails>
+@{
+    ViewBag.Title = "colleaguesInRole";
+}
+
+@foreach (var item in Model)
+{
+
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-sm-6 col-md-6">
+                <div class="well well-sm">
+                    <div class="row">
+                        <div class="col-sm-6 col-md-4">
+
+                            <img src="data:image/png;base64,@item.ImageBase64" alt="" class="img-rounded img-responsive" />
+                        </div>
+                        <div class="col-sm-6 col-md-8">
+                            <h4>
+
+                                @Html.DisplayFor(model => item.FirstName) @Html.DisplayFor(model => item.LastName)
+                            </h4>
+                            <p>
+                                <i class="glyphiconnn glyphicon glyphicon-envelope"></i>@Html.DisplayFor(model => item.UserPhoneNumber)
+                                <br />
+                            </p>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}

@@ -1,0 +1,18 @@
+﻿
+@model IEnumerable<eksp.Models.RoleViewModel>
+
+
+@foreach (var item in Model)
+{
+    if(item.FocusStart.Year == DateTime.Now.Year && item.FocusEnd.Year == DateTime.Now.Year || item.FocusStart.Year == DateTime.Now.AddYears(-1).Year && item.FocusEnd.Year == DateTime.Now.Year || item.FocusStart.Year == DateTime.Now.Year && item.FocusEnd.Year == DateTime.Now.AddYears(+1).Year)
+    {
+    <div class="jumbotron">
+        <h2>@item.RoleName</h2>
+
+        <h1> @item.RoleDescription</h1>
+        <p class="lead">Focus start : @item.FocusStart</p>
+        <p>Focus end : @item.FocusEnd </p>
+       
+    </div>
+    }
+}

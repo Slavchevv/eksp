@@ -14,19 +14,7 @@
     
     <div class="form-horizontal">
         <h4>Company</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.ImageData, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <div class="col-md-10">
-                    @Html.TextBoxFor(model => model.UploadImage, new { type = "file" })
-                    @*<input type="file" name="uploadImage" class="input-files" />*@
-                </div>
-               
-            </div>
-        </div>
-
+    
         <div class="form-group">
             @Html.LabelFor(model => model.CompanyName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
