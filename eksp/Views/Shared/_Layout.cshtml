@@ -25,23 +25,20 @@
                     {
                         if (User.IsInRole("CompanyAdministrator"))
                         {
-                            <li>@Html.ActionLink("Company Profile", "Index", "Companies", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+                            <li>@Html.ActionLink("Company Profile", "Company", "Companies", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
                             <li>@Html.ActionLink("Add Roles", "Create", "WorkRoles", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
-                            <li>@Html.ActionLink("Roles Overview", "", "Companies", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+                            <li>@Html.ActionLink("Roles Overview", "Index", "WorkRoles", routeValues: null, htmlAttributes: new { id = "registerLink" }))</li>
                         }
 
                         if (User.IsInRole("Admin"))
                         {
-                            <li>@Html.ActionLink("Add Company", "RegisterCA", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
-                            <li>@Html.ActionLink("Users", "RegisterCA", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
-                            <li>@Html.ActionLink("Admins", "RegisterCA", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+                            <li>@Html.ActionLink("Add Company", "Create", "Companies", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+                          
                         }
 
                         if (User.IsInRole("Employee"))
                         {
                             <li>@Html.ActionLink("Personal Profile", "UserProfile", "Employee", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
-                            <li>@Html.ActionLink("Update Your Profile", "Edit", "Employee", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
-                            <li>@Html.ActionLink("something else", "RegisterCA", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
                         }
                     }
                     @if (User.Identity.IsAuthenticated == false)

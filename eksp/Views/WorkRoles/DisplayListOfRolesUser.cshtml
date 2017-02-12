@@ -7,10 +7,9 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 
 <script type="text/javascript">
+
   $(document).ready(function () {
        var dataJSON;
-       $(".alert").hide();
-       //make the script run cuntinuosuly
        $.ajax({
           type: "POST",
           url: '@Url.Action("checkNumRoles", "WorkRoles")',
@@ -18,17 +17,11 @@
           success: successFunc,
           error: errorFunc
     });
-
     function successFunc(data, status) {
-
-
         if (data == false) {
             $(".alert").show();
-            $('.btn').addClass('disabled');
-
-            //$(".btn").prop('disabled', true);
+            $('.btnfc').addClass('disabled');           
         }
-
     }
 
     function errorFunc() {
@@ -51,7 +44,7 @@
        var titleLocation = $('#myModal').find('.modal-title');
        titleLocation.text(name);
 
-       // for each information you'll have to do like above...
+       
        
        $('#myModal').modal('show');
       
@@ -59,9 +52,7 @@
 });
 
     
-    //$(function () {
-    //    $('.date-picker').datepicker();
-    //})
+    
   });
     $(document).on("click", "#mdlSave", function (event) {
         
@@ -71,12 +62,7 @@
 
         addPastRoleAjax($('#mdlSave').data('myval'));
     });
-    //$('#mdlSave').on('click', function () {
-    //    console.log('x');
-    //    addPastRoleAjax();
-
-    //});
-    //int wrId, string empId, string dateStart, string dateEnd
+    
     function addPastRoleAjax(id) {
         $.ajax({
             type: "POST",
@@ -87,13 +73,11 @@
                 wrId: parseInt(id),
                 dateStart: $("#wrdateStart").val(),
                 dateEnd: $("#wrknamedateEnd").val()
-               
-                
+       
             },
             success: successFunc,
             error: errorFunc
         });
-
         function successFunc(data, status) {
 
 
@@ -101,7 +85,6 @@
                 $(".alert").show();
                 $('.btn').addClass('disabled');
 
-                //$(".btn").prop('disabled', true);
             }
 
         }
@@ -125,7 +108,7 @@
 
         <h1>@Html.DisplayFor(modelItem => item.RoleName)</h1>
         <p class="lead">@Html.DisplayFor(modelItem => item.RoleDescription)</p>
-        <p> @Html.ActionLink("Focus on this one!", "addWorkRoleUser", new { id = item.WorkRoleId }, new { @class = "btn btn-primary btn-lg" })</p>
+        <p> @Html.ActionLink("Focus on this one!", "addWorkRoleUser", new { id = item.WorkRoleId }, new { @class = "btn btn-primary btn-lg btnfc" })</p>
         <p> <button type="button" class="mdl btn btn-default btn-lg" data-myval="" data-toggle="modal" data-target="#myModal">Had role in the past</button> </p>
         <p> @Html.ActionLink("See who else is in role.", "colleaguesInRole", new { wrId = item.WorkRoleId, companyId = item.CompanyId }, new { @class = "btn btn-primary btn-lg" })</p>
     </div>

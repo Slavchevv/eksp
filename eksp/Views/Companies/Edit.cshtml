@@ -4,15 +4,12 @@
     ViewBag.Title = "Edit";
 }
 
-<h2>Edit</h2>
-
-
 @using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>Company</h4>
+        <h4>Update Company Info</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.CompanyId)
@@ -72,7 +69,7 @@
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group hdn">
             @Html.LabelFor(model => model.CAId, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.CAId, new { htmlAttributes = new { @class = "form-control" } })
@@ -94,4 +91,8 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+
+    <script src="@Url.Content("~/Scripts/jquery-3.1.1.min.js")"></script>
+    <script>$('.hdn').hide();</script>
+
 }

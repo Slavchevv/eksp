@@ -1,7 +1,7 @@
-﻿@*@model eksp.Models.Company
+﻿@model eksp.Models.Company
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Company";
 }
 
 <h2>Details</h2>
@@ -10,14 +10,18 @@
     <h4>Company</h4>
     <hr />
     <dl class="dl-horizontal">
-        <dt>
+        @*<dt>
             @Html.DisplayNameFor(model => model.ImageData)
-        </dt>
+        </dt>*@
+        @if (Model.ImageData?.Length > 0)
+        {
+            <dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.ImageData)
-        </dd>
+                <img src="data:image/png;base64,@Model.ImageBase64" />
 
+                @*@Html.DisplayFor(model => model.ImageData)*@
+            </dd>
+        }
         <dt>
             @Html.DisplayNameFor(model => model.CompanyName)
         </dt>
@@ -74,9 +78,14 @@
             @Html.DisplayFor(model => model.CAId)
         </dd>
 
+        <dd>
+            <p> @Html.ActionLink("Update profile", "Edit", "Companies", new { id = Model.CompanyId }, new { @class = "btn btn-default btn-lg" })</p>
+        </dd>
+        @*<dd>
+
+                @Html.ActionLink("Edit", "Edit", new { id =d) }) |
+                @Html.ActionLink("Details", "Details", new { id = item.CompanyId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.CompanyId })
+            </dd>*@
     </dl>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.CompanyId }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>*@

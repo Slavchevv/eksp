@@ -103,7 +103,8 @@ namespace eksp.Controllers
 
         // GET: Employee/Edit/5
 
-        public ActionResult Edit(int? id)
+        //public ActionResult Edit(int? id)
+            public ActionResult Edit(string id)
         {
             if (id == null)
             {
@@ -127,15 +128,26 @@ namespace eksp.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "UserDetailsId,ImageData,FirstName,LastName,UserAddress,UserCountry,UserPostalCode,UserPhoneNumber,CompanyId,identtyUserId")] UserDetails userDetails, HttpPostedFileBase UploadImage)
-        {
+        {      
             if (ModelState.IsValid)
             {
-                byte[] buf = new byte[UploadImage.ContentLength];
-                UploadImage.InputStream.Read(buf, 0, buf.Length);
-                userDetails.ImageData = buf;
-
-                db.Entry(userDetails).State = EntityState.Modified;
+                var userFromDb = db.UsersDetails.Where(u => u.identtyUserId == userDetails.identtyUserId).First();
+                if (UploadImage!=null) {
+                    byte[] buf = new byte[UploadImage.ContentLength];
+                    UploadImage.InputStream.Read(buf, 0, buf.Length);
+                    userFromDb.ImageData = buf;
+                }
+                
+                userFromDb.FirstName = userDetails.FirstName;
+                userFromDb.LastName = userDetails.LastName;
+                userFromDb.UserAddress = userDetails.UserAddress;
+                userFromDb.UserCountry = userDetails.UserCountry;
+                userFromDb.UserPostalCode = userDetails.UserPostalCode;
+                userFromDb.UserPhoneNumber = userDetails.UserPhoneNumber;
+                userFromDb.CompanyId = userDetails.CompanyId;
+                //db.Entry(userDetails).State = EntityState.Modified;
                 db.SaveChanges();
+                
                 return RedirectToAction("Index");
                
             }

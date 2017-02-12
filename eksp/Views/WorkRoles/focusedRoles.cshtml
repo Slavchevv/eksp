@@ -1,0 +1,16 @@
+﻿@model IEnumerable<eksp.Models.RoleViewModel>
+@{
+    ViewBag.Title = "focusedRoles";
+}
+
+
+@foreach (var item in Model)
+{
+
+    <div class="jumbotron">
+        <h1>@Html.DisplayFor(modelItem => item.RoleName)</h1>
+        <p class="lead">@Html.DisplayFor(modelItem => item.RoleDescription)</p>
+        <p class="lead">@Html.DisplayFor(modelItem => item.FocusStart)</p>
+        <p class="lead">@Html.DisplayFor(modelItem => item.FocusEnd)</p>
+    </div>
+}

@@ -72,7 +72,7 @@
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group hdn">
             @Html.LabelFor(model => model.CompanyId, "CompanyId", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("CompanyId", null, htmlAttributes: new { @class = "form-control" })
@@ -80,7 +80,7 @@
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group hdn">
             @Html.LabelFor(model => model.identtyUserId, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.identtyUserId, new { htmlAttributes = new { @class = "form-control" } })
@@ -102,4 +102,7 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+
+    <script src="@Url.Content("~/Scripts/jquery-3.1.1.min.js")"></script>
+    <script>$('.hdn').hide();</script>
 }

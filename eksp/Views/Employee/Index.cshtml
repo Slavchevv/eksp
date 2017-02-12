@@ -7,7 +7,7 @@
     <h1>Home page</h1>
     <p class="lead">This is your homepage. Look around to navigate to whatever you want to navigate to.</p>
    @* <p> @Html.ActionLink("Focus on this one!", "addWorkRoleUser", new { id = item.WorkRoleId }, new { @class = "btn btn-primary btn-lg" })</p>*@
-
+    <p>Number of online users <strong id="counter"></strong></p>
 </div>
 
 <div class="row">
@@ -22,12 +22,13 @@
         <h2>Current and previous yearly focus</h2>
         <p>Here you can see an overview of the roles you'd been focuse in the past and you are now</p>
         <p>@Html.ActionLink("Go!", "getRolesByYear", "WorkRoles", null, new { @class = "btn btn-default btn-lg" })</p>
+        
     </div>
 </div>
 
 @section scripts{
     <div class="row">
-        Number of online users <strong id="counter"></strong>
+        @*Number of online users <strong id="counter"></strong>*@
         <script src="@Url.Content("~/Scripts/jquery-3.1.1.min.js")"></script>
         <script src="@Url.Content("~/Scripts/jquery.signalR-2.2.1.min.js")"></script>
         <script src="@Url.Content("~/signalr/hubs")"></script>

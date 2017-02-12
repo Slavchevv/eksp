@@ -207,25 +207,15 @@ namespace eksp.Controllers
 
 
                     var company = db.Companies.Find(model.CompanyCode);
-                    // find the company by the id passed in the frontend.
+                    
                     if (company != null)
                     {
                         company.CAId = currentUser.Id;
-                        //set the id
+                        
                         db.Entry(company).State = EntityState.Modified;
                         db.SaveChanges();
                     }
-
-                    //var company = db.Companies.Find(model.CompanyCode);
-                    // find the company by the id passed in the frontend.
-
-                    //if (company != null)
-                    //{
-                    //    company.CAId = currentUser.Id;
-                    //    var myCompanyState = db.Entry(company).State;
-                    //    db.SaveChanges(); //put breakpoint here 
-                    //}
-
+ 
                     return RedirectToAction("Index", "Home");
                 }
                 AddErrors(result);

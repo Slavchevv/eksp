@@ -1,163 +1,61 @@
-﻿@model eksp.Models.Company
-
+﻿@*@model eksp.Models.PieChartVM*@
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "experiencePieChart";
 }
 
-<h2>Details</h2>
 
-<div>
-    <h4>Company</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.ImageData)
-        </dt>
-       @if (Model.ImageBase64 != null)
-        {
-            <dd>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
 
-                <img src="data:image/png;base64,@Model.ImageBase64" />
-
-                @*@Html.DisplayFor(model => model.ImageData)*@
-            </dd>
-        }
-        <dt>
-            @Html.DisplayNameFor(model => model.CompanyName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CompanyName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.CompanyAddress)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CompanyAddress)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.CompanyCountry)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CompanyCountry)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.CompanyCity)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CompanyCity)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.CompanyPostalCode)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CompanyPostalCode)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.CompanyPhoneNumber)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CompanyPhoneNumber)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.CAId)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CAId)
-        </dd>
-        @*<dd>
+    $.ajax({
+        url: '@Url.Action("GetData", "Companies")',
+        type: "GET",
+        success: function (result) {
+            console.log(result);
+            var jsonObj = $.parseJSON(result)
+            console.log(jsonObj);
+            var arr = $.map(jsonObj, function (el) { return el; })
            
-            @Html.ActionLink("Edit", "Edit", new { id =d) }) |
-            @Html.ActionLink("Details", "Details", new { id = item.CompanyId }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.CompanyId })
-        </dd>*@
-    </dl>
-</div>
+            var arrChart = jsonObj.map(el=>Object.values(el));
+            arrChart.unshift(['Role', 'Percentage']);
+            console.log(arrChart);
 
-@*@model IEnumerable<eksp.Models.Company>
+            //var testarr = [
+            //      ['Language', 'Speakers (in millions)'],
+            //      ['German', 5.85],
+            //      ['French', 1.66],
+            //      ['Italian', 0.316],
+            //      ['Romansh', 0.0791]
+            //];
+            //console.log(testarr);
 
-@{
-    ViewBag.Title = "Index";
-}
+            //
+            google.charts.load("current", { packages: ["corechart"] });
+            google.charts.setOnLoadCallback(drawChart);
+            function drawChart() {
+                var data = google.visualization.arrayToDataTable(arrChart);
 
-<h2>Index</h2>
+                var options = {
+                    legend: 'none',
+                    pieSliceText: 'label',
+                    title: 'Accumulated experience',
+                    pieStartAngle: 100,
+                };
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.ImageData)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CompanyName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CompanyAddress)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CompanyCountry)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CompanyCity)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CompanyPostalCode)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CompanyPhoneNumber)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CAId)
-        </th>
-        <th></th>
-    </tr>
+                var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+                chart.draw(data, options);
+            }
+            //
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.ImageData)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CompanyName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CompanyAddress)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CompanyCountry)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CompanyCity)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CompanyPostalCode)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CompanyPhoneNumber)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CAId)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.CompanyId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.CompanyId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.CompanyId })
-        </td>
-    </tr>
-}
+        }
+    });
 
-</table>*@
+
+
+</script>-
+
+
+
+<div id="piechart" style="width: 1000px; height: 600px;"></div>
+

@@ -20,33 +20,46 @@ namespace eksp.Controllers
         // GET: Companies
         public ActionResult Index()
         {
+           
+            return View();
+        }
+
+        // GET: Companies/Details/5
+        [Authorize(Roles = "CompanyAdministrator")]
+        public ActionResult Company()
+        {
             //if not in role siteAdmin
             //return company where CAID == identuty.user.id
             string currentUserId = User.Identity.GetUserId();
             //ApplicationUser currentUser = db.Users.FirstOrDefault(x => x.Id == currentUserId);
             Company company = db.Companies.Where(c => c.CAId == currentUserId)
                     .FirstOrDefault();
-            db.Users.FirstOrDefault(x => x.Id == currentUserId);
+            //db.Users.FirstOrDefault(x => x.Id == currentUserId);
             //return View(db.Companies.ToList());
+            //Company company = db.Companies.Where(c => c.CAId == currentUserId
+                    //&& c.ImageBase64 != null
+                    //&& c.ImageData?.Length > 0).FirstOrDefault();
+
             return View(company);
         }
 
-        // GET: Companies/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Company company = db.Companies.Find(id);
-            if (company == null)
-            {
-                return HttpNotFound();
-            }
-            return View(company);
-        }
+
+        //public ActionResult Details(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    Company company = db.Companies.Find(id);
+        //    if (company == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(company);
+        //}
 
         // GET: Companies/Create
+        [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
             return View();
@@ -55,6 +68,7 @@ namespace eksp.Controllers
         // POST: Companies/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "CompanyId,ImageData,CompanyName,CompanyAddress,CompanyCountry,CompanyCity,CompanyPostalCode,CompanyPhoneNumber,CAId")] Company company)//
@@ -74,13 +88,17 @@ namespace eksp.Controllers
         }
 
         // GET: Companies/Edit/5
+        [Authorize(Roles = "CompanyAdministrator")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Company company = db.Companies.Find(id);
+
+            string userid = User.Identity.GetUserId();
+            //Company company = db.Companies.Find(id);
+            Company company = db.Companies.Where(i => i.CAId == userid).First();
             if (company == null)
             {
                 return HttpNotFound();
@@ -91,20 +109,33 @@ namespace eksp.Controllers
         // POST: Companies/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "CompanyAdministrator")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "CompanyId,ImageData,CompanyName,CompanyAddress,CompanyCountry,CompanyCity,CompanyPostalCode,CompanyPhoneNumber,CAId")] Company company, HttpPostedFileBase UploadImage)
-        {
+        {           
             if (ModelState.IsValid)
             {
-                byte[] buf = new byte[UploadImage.ContentLength];
-                UploadImage.InputStream.Read(buf, 0, buf.Length);
-                company.ImageData = buf;
+                var companiesFromDb = db.Companies.Where(u => u.CAId == company.CAId).First();
+                if (UploadImage != null)
+                {
+                    byte[] buf = new byte[UploadImage.ContentLength];
+                    UploadImage.InputStream.Read(buf, 0, buf.Length);
+                    companiesFromDb.ImageData = buf;
+                }
+                companiesFromDb.CompanyName = company.CompanyName;
+                companiesFromDb.CompanyAddress = company.CompanyAddress;
+                companiesFromDb.CompanyCountry = company.CompanyCountry;
+                companiesFromDb.CompanyCity = company.CompanyCity;
+                companiesFromDb.CompanyPostalCode = company.CompanyPostalCode;
+                companiesFromDb.CompanyPhoneNumber = company.CompanyPhoneNumber;
+                //db.Entry(company).State = EntityState.Modified;
+                db.SaveChanges();//not tested yet
+                return RedirectToAction("Company");
 
-                db.Entry(company).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
+               
+
+                }
             return View(company);
         }
 
@@ -131,7 +162,7 @@ namespace eksp.Controllers
             Company company = db.Companies.Find(id);
             db.Companies.Remove(company);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Company");
         }
 
         protected override void Dispose(bool disposing)
@@ -144,6 +175,7 @@ namespace eksp.Controllers
         }
 
         //[HttpPost]
+        [Authorize(Roles = "CompanyAdministrator")]
         public ActionResult experiencePieChart()
         {
 
@@ -151,7 +183,7 @@ namespace eksp.Controllers
 
             return View();
         }
-
+        [Authorize(Roles = "CompanyAdministrator")]
         public JsonResult GetData()
         {
             //get all the workers in the company

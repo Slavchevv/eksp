@@ -25,9 +25,6 @@ namespace eksp.Hubs
             return base.OnDisconnected(stopCalled);
         }
 
-        //public void Hello()
-        //{
-        //    Clients.All.hello();
-        //}
+        
     }
 }

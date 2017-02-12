@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 
 namespace eksp.Controllers
 {
@@ -10,6 +11,15 @@ namespace eksp.Controllers
     {
         public ActionResult Index()
         {
+            if (User.IsInRole("CompanyAdministrator"))
+            {
+                return RedirectToAction("Index", "Companies");
+
+            }
+            else if (User.IsInRole("Employee"))
+            {
+                return RedirectToAction("Index", "Employee");
+            }
             return View();
         }
 

@@ -27,6 +27,5 @@ namespace eksp.Models
         public virtual Company Company { get; set; }
         public string identtyUserId { get; set; }
         public virtual ICollection<WorkRolesUsersDetails> WorkRolesUsersDetails { get; set; }
-
     }
 }
